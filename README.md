@@ -1,5 +1,7 @@
 # Builder Check
 
+**English** | [Türkçe](Turkce-Rehber.md)
+
 Read any GitHub account as plain counts: commit days, merged pull requests, own repositories and the languages behind them. At the end it lists what to fix first and writes a prompt you can give to an AI for ideas.
 
 > [!NOTE]
