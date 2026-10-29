@@ -1,0 +1,15 @@
+{
+  "name": "builder-check",
+  "version": "1.0.0",
+  "description": "Read your GitHub as plain counts and see what you can build in each language you use.",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

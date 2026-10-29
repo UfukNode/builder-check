@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Builder Check</title>
+    <meta name="description" content="Read your GitHub as plain counts and see what you can build in each language you use." />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/fonts/SchibstedGrotesk-Variable.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <header class="bar">
+      <a class="mark" href="./">
+        <svg class="mark-glyph" viewBox="0 0 20 20" aria-hidden="true">
+          <rect x="3" y="9" width="2.6" height="8" rx="1" />
+          <rect x="8.7" y="3" width="2.6" height="14" rx="1" />
+          <rect x="14.4" y="12" width="2.6" height="5" rx="1" />
+        </svg>
+        <span>Builder Check</span>
+      </a>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="tr" aria-pressed="false">TR</button>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="intro">
+        <h1 data-i18n="headline">Read your GitHub, language by language.</h1>
+        <p class="lede" data-i18n="lede"></p>
+
+        <form id="checkForm" class="ask" novalidate>
+          <label class="visually-hidden" for="username" data-i18n="usernameLabel">GitHub username</label>
+          <div class="field">
+            <span class="prefix" aria-hidden="true">github.com/</span>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              inputmode="text"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              data-i18n-placeholder="usernamePlaceholder"
+            />
+          </div>
+          <button id="checkButton" class="go" type="submit" data-i18n="check">Check</button>
+        </form>
+
+        <details class="token">
+          <summary data-i18n="tokenSummary">Use a token (optional)</summary>
+          <div class="token-body">
+            <p data-i18n="tokenHelp"></p>
+            <label for="token" data-i18n="tokenLabel">Token</label>
+            <input id="token" type="password" autocomplete="off" spellcheck="false" />
+            <a
+              href="https://github.com/settings/personal-access-tokens/new"
+              target="_blank"
+              rel="noreferrer"
+              data-i18n="tokenLink"
+            ></a>
+          </div>
+        </details>
+
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+        <p class="privacy" data-i18n="privacy"></p>
+      </section>
+
+      <section id="result" class="result" hidden tabindex="-1"></section>
+    </main>
+
+    <footer id="footer" class="foot"></footer>
+  </body>
+</html>

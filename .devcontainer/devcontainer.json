@@ -1,0 +1,12 @@
+{
+  "name": "Builder Check",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": {
+      "label": "Builder Check",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  "postCreateCommand": "npm --version && node --version"
+}
