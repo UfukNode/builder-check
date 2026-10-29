@@ -6,15 +6,16 @@ import { fileURLToPath } from "node:url";
 const host = process.env.HOST || (process.env.CODESPACES === "true" ? "0.0.0.0" : "127.0.0.1");
 let port = Number.parseInt(process.env.PORT || process.argv[2] || "5173", 10);
 const root = path.dirname(fileURLToPath(import.meta.url));
-const safeRoot = root.endsWith(path.sep) ? root : `${root}${path.sep}`;
-const blocked = new Set([".git", "node_modules", "test"]);
+
+// Only the app itself is served: the page, its script and styles, lib/ and assets/.
+// Anything else (.git, tests, package files) is refused, whatever its letter case.
+const servedFiles = new Set(["index.html", "app.js", "styles.css"]);
+const servedDirs = new Set(["lib", "assets"]);
 
 const contentTypes = {
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
-  ".json": "application/json; charset=utf-8",
-  ".md": "text/markdown; charset=utf-8",
   ".png": "image/png",
   ".svg": "image/svg+xml",
   ".ttf": "font/ttf",
@@ -31,11 +32,23 @@ function send(response, statusCode, body, contentType = "text/plain; charset=utf
   response.end(body);
 }
 
-async function handleStatic(response, pathname) {
-  const safePathname = pathname === "/" ? "/index.html" : pathname;
-  const filePath = path.normalize(path.join(root, decodeURIComponent(safePathname)));
+function servable(relative) {
+  const parts = relative.split(path.sep);
+  if (parts.some((part) => part === "" || part.startsWith("."))) return false;
+  return parts.length === 1 ? servedFiles.has(parts[0]) : servedDirs.has(parts[0]);
+}
 
-  if (!filePath.startsWith(safeRoot) || blocked.has(path.relative(root, filePath).split(path.sep)[0])) {
+async function handleStatic(response, pathname) {
+  let decoded;
+  try {
+    decoded = decodeURIComponent(pathname === "/" ? "/index.html" : pathname);
+  } catch {
+    send(response, 400, "Bad request");
+    return;
+  }
+  const filePath = path.normalize(path.join(root, decoded));
+  const relative = path.relative(root, filePath);
+  if (decoded.includes("\0") || relative.startsWith("..") || path.isAbsolute(relative) || !servable(relative)) {
     send(response, 403, "Forbidden");
     return;
   }
@@ -51,8 +64,8 @@ const server = http.createServer(async (request, response) => {
       send(response, 405, "Method not allowed");
       return;
     }
-    const requestUrl = new URL(request.url, `http://${request.headers.host || "localhost"}`);
-    await handleStatic(response, requestUrl.pathname);
+    // Only the path matters, so a fixed base is used instead of the Host header.
+    await handleStatic(response, new URL(request.url, "http://localhost").pathname);
   } catch (error) {
     if (error.code === "ENOENT" || error.code === "EISDIR") {
       send(response, 404, "Not found");
