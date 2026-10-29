@@ -57,6 +57,37 @@ Under it, **Get ideas from an AI** writes a prompt with your own numbers, langua
 
 ---
 
+## 5. Earn Free GitHub Badges
+
+GitHub shows badges under **Achievements** on your profile. These five are free, and they are the ones on my own profile:
+
+![Badges on a GitHub profile](assets/guide-6-badges.png)
+
+| Badge | How to get it | Count per level |
+| --- | --- | --- |
+| **Quickdraw** | Close an issue or pull request within 5 minutes of opening it. | 1 |
+| **YOLO** | Merge a pull request without a review, for example your own in your own repository. | 1 |
+| **Pull Shark** | Open pull requests that get merged. The badge comes with the 2nd one. | 2, 16, 128, 1024 |
+| **Pair Extraordinaire** | Get a pull request merged with a commit you co-authored with a friend. | 1, 10, 24, 48 |
+| **Starstruck** | A repository you created reaches 16 stars. | 16, 128, 512, 4096 |
+
+The **x2** next to a badge means its second level.
+
+To earn the first four step by step, copy this prompt, put your username in place of `YOUR_USERNAME` and paste it into any AI assistant:
+
+```text
+My GitHub username is YOUR_USERNAME.
+Walk me through earning these free GitHub achievements on github.com, one at a time:
+Quickdraw, YOLO, Pull Shark and Pair Extraordinaire.
+Use a new public repository of mine called badge-practice.
+For each badge, give me short numbered steps with the exact buttons to click,
+then wait for me to write "done" before the next one.
+At the end, give me three ways to make one of my real repositories useful enough
+that people star it (for Starstruck), without asking anyone for stars.
+```
+
+---
+
 ## Run Locally:
 
 ### Windows:
